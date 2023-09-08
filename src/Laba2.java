@@ -1,0 +1,2 @@
+public class Laba2 {
+}
