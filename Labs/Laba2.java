@@ -7,7 +7,7 @@ import java.util.Hashtable;
 import java.util.*;
 public class Laba2 {
     public static void main(String[] args) {
-        solve8();
+
 
     }
     private static void solve1()
