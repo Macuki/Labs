@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
         Board board = new Board();
         board.setColorGaming('w');
         board.init();
@@ -46,8 +47,8 @@ public class Main {
             y2 = Integer.parseInt(coords[2]);
             x2 = Integer.parseInt(coords[3]);
 
-
-            while (!board.move_figure(y1, x1, y2, x2)) {
+            int ans = board.move_figure(y1,x1,y2,x2);
+            while (ans == 0) {
                 System.out.println("Ошибка хода, повторите ввод хода!");
                 inputLine = in.nextLine();
                 coords = inputLine.split(" ");
@@ -55,9 +56,14 @@ public class Main {
                 x1 = Integer.parseInt(coords[1]);
                 y2 = Integer.parseInt(coords[2]);
                 x2 = Integer.parseInt(coords[3]);
+                ans = board.move_figure(y1,x1,y2,x2);
             }
             ;
-
+            if (ans == -1)
+            {
+                System.out.println("End of game");
+                game = false;
+            }
             switch (board.getColorGaming()) {
                 case 'w':
                     board.setColorGaming('b');
@@ -69,5 +75,9 @@ public class Main {
 
 
         }
+    }
+    public static void foo(int a)
+    {
+        a = 5;
     }
 }

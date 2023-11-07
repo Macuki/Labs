@@ -16,7 +16,10 @@ public class Pawn extends Figure {
         //   if (!super.canMove(row, col, row1, col1)){
         //       return false;
         //   }
-
+        if (fields[row1][col1] != null)
+        {
+            return false;
+        }
         if (this.isFirstStep) {
             if ((((((row + 2 == row1) || (row + 1 == row1)) && this.getColor() == 'w') ||
                     (((row - 2 == row1) || (row - 1 == row1)) && this.getColor() == 'b')) && (col == col1)) && fields[row1][col] == null) {
@@ -43,6 +46,10 @@ public class Pawn extends Figure {
 
     @Override
     public boolean canAttack(int row, int col, int row1, int col1,Figure[][] fields) {
+        if (fields[row1][col1] == null)
+        {
+            return false;
+        }
         switch (this.getColor()) {
             case 'w':
                 if (Math.abs(row - row1) == 1 && Math.abs(col - col1) == 1) {

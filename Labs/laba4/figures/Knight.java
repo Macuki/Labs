@@ -9,6 +9,10 @@ public class Knight extends Figure{
 
     @Override
     public boolean canMove(int row, int col, int row1, int col1,Figure[][] fields) {
+        if (fields[row1][col1] != null)
+        {
+            return false;
+        }
         if (((Math.abs(row - row1)==1 && Math.abs(col - col1)==2) || (Math.abs(row - row1)==2 && Math.abs(col - col1)==1)) && fields[row1][col1] == null)
         {
             return true;
@@ -19,7 +23,16 @@ public class Knight extends Figure{
 
     @Override
     public boolean canAttack(int row, int col, int row1, int col1,Figure[][] fields) {
-        return this.canMove(row, col, row1, col1,fields);
+        if (fields[row1][col1] == null)
+        {
+            return false;
+        }
+        if (((Math.abs(row - row1)==1 && Math.abs(col - col1)==2) || (Math.abs(row - row1)==2 && Math.abs(col - col1)==1)) && fields[row1][col1] == null)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
