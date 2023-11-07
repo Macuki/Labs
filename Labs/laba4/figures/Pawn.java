@@ -18,19 +18,27 @@ public class Pawn extends Figure {
         //   }
 
         if (this.isFirstStep) {
-            if (((((row + 2 == row1) || (row + 1 == row1)) && this.getColor() == 'w') ||
-                    (((row - 2 == row1) || (row - 1 == row1)) && this.getColor() == 'b')) && (col == col1)) {
+            if ((((((row + 2 == row1) || (row + 1 == row1)) && this.getColor() == 'w') ||
+                    (((row - 2 == row1) || (row - 1 == row1)) && this.getColor() == 'b')) && (col == col1)) && fields[row1][col] == null) {
                 this.isFirstStep = false;
                 return true;
             }
+            else
+            {
+                return false;
+            }
 
-        } else {
-            if ((((row + 1 == row1) && (this.getColor() == 'w')) || ((row - 1 == row1) && (this.getColor() == 'b'))) && (col == col1)) {
+        } else
+            {
+            if (((((row + 1 == row1) && (this.getColor() == 'w') ) || ((row - 1 == row1) && (this.getColor() == 'b'))) && (col == col1)) && fields[row1][col]!= null) {
                 return true;
+            }
+            else
+            {
+                return false;
             }
 
         }
-        return false;
     }
 
     @Override

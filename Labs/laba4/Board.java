@@ -67,7 +67,7 @@ public class Board {
 
         Figure figure =  this.fields[row1][col1];
 
-        if (figure.canMove(row1, col1, row2, col2,this.fields) && ((this.fields[row2][col2]==null) || (Objects.equals(this.fields[row1][col1].getName(), "K") && Objects.equals(this.fields[row2][col2].getName(), "R")))){
+        if ((figure.canMove(row1, col1, row2, col2,this.fields))  || (Objects.equals(this.fields[row1][col1].getName(), "K") && Objects.equals(this.fields[row2][col2].getName(), "R"))){
             System.out.println("move");
             figure.move(row1,col1,row2,col2,this.fields);
             return true;

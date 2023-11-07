@@ -67,7 +67,8 @@ public class King extends Figure{
             }
 
         }
-        if ((Math.abs(row - row1)==1 && col ==col1) ||(row == row1 && Math.abs(col -col1)==1) || ((Math.abs(row - row1) ==1 && Math.abs(col-col1)==1))){
+        if (((Math.abs(row - row1)==1 && col ==col1) ||(row == row1 && Math.abs(col -col1)==1) || ((Math.abs(row - row1) ==1 && Math.abs(col-col1)==1))) && fields[row1][col1] != null)
+        {
             return true;
         }
         return false;
