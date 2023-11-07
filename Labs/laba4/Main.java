@@ -46,9 +46,17 @@ public class Main {
             x1 = Integer.parseInt(coords[1]);
             y2 = Integer.parseInt(coords[2]);
             x2 = Integer.parseInt(coords[3]);
-
-            int ans = board.move_figure(y1,x1,y2,x2);
-            while (ans == 0) {
+            boolean flag;
+            if (board.fields[y1][x1] != null && board.fields[y1][x1].getColor() == board.getColorGaming())
+            {
+                flag = true;
+            }
+            else
+            {
+                flag = false;
+            }
+            while (flag == false)
+            {
                 System.out.println("Ошибка хода, повторите ввод хода!");
                 inputLine = in.nextLine();
                 coords = inputLine.split(" ");
@@ -56,9 +64,16 @@ public class Main {
                 x1 = Integer.parseInt(coords[1]);
                 y2 = Integer.parseInt(coords[2]);
                 x2 = Integer.parseInt(coords[3]);
-                ans = board.move_figure(y1,x1,y2,x2);
+                if (board.fields[y1][x1] != null && board.fields[y1][x1].getColor() == board.getColorGaming())
+                {
+                    flag = true;
+                }
+                else
+                {
+                    flag = false;
+                }
             }
-            ;
+            int ans = board.move_figure(y1,x1,y2,x2);
             if (ans == -1)
             {
                 System.out.println("End of game");

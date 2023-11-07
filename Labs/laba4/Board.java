@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Board {
     //TODO: Список фигур и начальное положение всех фигур
-    private Figure fields[][] = new Figure[8][8];
+    public Figure fields[][] = new Figure[8][8];
     private ArrayList<String> takeWhite = new ArrayList(16);
     private ArrayList<String> takeBlack = new ArrayList(16);
 
