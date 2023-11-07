@@ -69,7 +69,6 @@ public class Board {
     public int move_figure(int row1, int col1, int row2, int col2 ){
 
         Figure figure =  this.fields[row1][col1];
-        int x1 = -1,y1 = -1,x2 = -1,y2 = -1;
         if (this.isKingAttacked == true)
         {
             boolean isAnyPath = false;
@@ -94,7 +93,7 @@ public class Board {
                             {
 
 
-                                if (i != k && j != z && fields[i][j] != null && fields[i][j].canMove(i,j,k,z,this.fields))
+                                if ((i != k || j != z) && fields[i][j] != null && fields[i][j].canMove(i,j,k,z,this.fields))
                                 {
                                     isAnyPath = true;
                                     fields[i][j].move(i,j,k,z,this.fields);
@@ -118,10 +117,6 @@ public class Board {
                                     fields[k][z] = null;
                                     if (isAnyPath == true)
                                     {
-                                        y1  = i;
-                                        x1 = j;
-                                        y2 = k;
-                                        x2 = z;
 
                                         break;
                                     }
@@ -155,11 +150,6 @@ public class Board {
             }
             else
             {
-                System.out.println("Our good turn:");
-                System.out.println(y1);
-                System.out.println(x1);
-                System.out.println(y2);
-                System.out.println(x2);
 
 
                 boolean flag2 = false;
@@ -177,7 +167,7 @@ public class Board {
                         col2 = Integer.parseInt(coords[3]);
                         figure =  this.fields[row1][col1];
                     }
-                    if (figure.canMove(row1,col1,row2,col2,this.fields))
+                    if (figure != null && figure.canMove(row1,col1,row2,col2,this.fields))
                     {
                         figure.move(row1,col1,row2,col2,this.fields);
                     }
@@ -190,9 +180,9 @@ public class Board {
                     {
                         color = 'w';
                     }
-                    for (int i = 0; i < 8; ++i)
+                    for (int i = 3; i < 8; ++i)
                     {
-                        for (int j =0; j < 8; ++j)
+                        for (int j =7; j < 8; ++j)
                         {
                             if (fields[i][j] != null && fields[i][j].getColor() == color && fields[i][j].canAttackKing(i, j, this.fields))
                             {
@@ -224,7 +214,7 @@ public class Board {
 
         }
 
-        else if ((figure.canMove(row1, col1, row2, col2,this.fields))  || (Objects.equals(this.fields[row1][col1].getName(), "K") && Objects.equals(this.fields[row2][col2].getName(), "R"))){
+        else if (figure!= null && ((figure.canMove(row1, col1, row2, col2,this.fields) )  || (Objects.equals(this.fields[row1][col1].getName(), "K") && Objects.equals(this.fields[row2][col2].getName(), "R")))){
             System.out.println("move");
             figure.move(row1,col1,row2,col2,this.fields);
             this.isKingAttacked = figure.canAttackKing(row2,col2,this.fields);
@@ -239,9 +229,86 @@ public class Board {
                     this.colorOfAttacked = "white";
                 }
                 System.out.println(colorOfAttacked + " king is Attacked, Save him!");
+                boolean isAnyPath = false;
+                char color;
+                if (Objects.equals(colorOfAttacked, "white"))
+                {
+                    color = 'w';
+                }
+                else
+                {
+                    color = 'b';
+                }
+                for (int i = 0; i < 8; ++i)
+                {
+                    for (int j = 0; j < 8; ++j)
+                    {
+                        if (fields[i][j] != null && fields[i][j].getColor() == color)
+                        {
+                            for (int k = 0; k < 8; ++k)
+                            {
+                                for (int z = 0; z < 8; ++z)
+                                {
+
+
+                                    if ((i != k || j != z) && fields[i][j] != null && fields[i][j].canMove(i,j,k,z,this.fields))
+                                    {
+                                        isAnyPath = true;
+                                        fields[i][j].move(i,j,k,z,this.fields);
+                                        for (int w = 0; w < 8; ++w)
+                                        {
+                                            for (int q = 0; q < 8; ++q)
+                                            {
+                                                if (fields[w][q] != null && fields[w][q].getColor() != color && fields[w][q].canAttackKing(w, q, this.fields))
+                                                {
+                                                    isAnyPath = false;
+                                                    break;
+                                                }
+                                            }
+                                            if (isAnyPath == false)
+                                            {
+                                                break;
+                                            }
+
+                                        }
+                                        fields[i][j] = fields[k][z];
+                                        fields[k][z] = null;
+                                        if (isAnyPath == true)
+                                        {
+
+                                            break;
+                                        }
+                                    }
+                                    if (isAnyPath == true)
+                                    {
+                                        break;
+                                    }
+
+                                }
+                                if (isAnyPath == true)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        if (isAnyPath == true)
+                        {
+                            break;
+                        }
+                    }
+                    if (isAnyPath == true)
+                    {
+                        break;
+                    }
+                }
+                if (isAnyPath== false)
+                {
+                    System.out.println(colorOfAttacked + "Has lost");
+                    return -1;
+                }
             }
             return 1;
-        } else if (figure.canAttack(row1, col1, row2, col2,this.fields) && this.fields[row2][col2] != null && this.fields[row2][col2].getColor() != this.fields[row1][col1].getColor() ){
+        } else if (figure != null && (figure.canAttack(row1, col1, row2, col2,this.fields) && this.fields[row2][col2] != null && this.fields[row2][col2].getColor() != this.fields[row1][col1].getColor() )){
             System.out.println("attack");
             switch (this.fields[row2][col2].getColor()){
                 case 'w': this.takeWhite.add(this.fields[row2][col2].getColor()+this.fields[row2][col2].getName());break;

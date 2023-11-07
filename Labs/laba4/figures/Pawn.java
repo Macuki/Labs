@@ -33,7 +33,8 @@ public class Pawn extends Figure {
 
         } else
             {
-            if (((((row + 1 == row1) && (this.getColor() == 'w') ) || ((row - 1 == row1) && (this.getColor() == 'b'))) && (col == col1)) && fields[row1][col]!= null) {
+            if (((row + 1 == row1 && this.getColor() == 'w') || (row - 1 == row1 && this.getColor() == 'b')) && (col == col1))
+            {
                 return true;
             }
             else
