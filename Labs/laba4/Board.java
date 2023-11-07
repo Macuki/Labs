@@ -2,6 +2,7 @@ package laba4;
 import laba4.figures.*;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Board {
     //TODO: Список фигур и начальное положение всех фигур
@@ -18,6 +19,8 @@ public class Board {
     }
 
     private char colorGaming;
+    private boolean isKingAttacked = false;
+    private String colorOfAttacked;
 
     public void init(){
         this.fields[0] = new Figure[]{
@@ -66,10 +69,85 @@ public class Board {
     public boolean move_figure(int row1, int col1, int row2, int col2 ){
 
         Figure figure =  this.fields[row1][col1];
+        if (this.isKingAttacked == true)
+        {
+            boolean flag2 = false;
+            do
+            {
+                if (flag2 == true)
+                {
+                    System.out.println("Нельзя так ходить, так как имеется шах");
+                    Scanner in = new Scanner(System.in);
+                    String inputLine = in.nextLine();
+                    String[] coords = inputLine.split(" ");
+                    row1 = Integer.parseInt(coords[0]);
+                    col1 = Integer.parseInt(coords[1]);
+                    row2 = Integer.parseInt(coords[2]);
+                    col2 = Integer.parseInt(coords[3]);
+                    figure =  this.fields[row1][col1];
+                }
+                if (figure.canMove(row1,col1,row2,col2,this.fields))
+                {
+                    figure.move(row1,col1,row2,col2,this.fields);
+                }
+                boolean flag = false;
+                char color;
+                if (Objects.equals(colorOfAttacked, "white"))
+                {
+                    color = 'b';
+                }
+                else
+                {
+                    color = 'w';
+                }
+                for (int i = 0; i < 8; ++i)
+                {
+                    for (int j =0; j < 8; ++j)
+                    {
+                        if (fields[i][j] != null && fields[i][j].getColor() == color && fields[i][j].canAttackKing(i, j, this.fields))
+                        {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (flag == true)
+                    {
+                        break;
+                    }
+                }
+                if (flag == true)
+                {
+                    this.fields[row2][col2] = null;
+                    this.fields[row1][col1] = figure;
+                }
+                else
+                {
+                    this.isKingAttacked = false;
+                }
+                if (flag2 == false)
+                {
+                    flag2 = true;
+                }
+            } while (this.isKingAttacked == true);
+            return true;
+        }
 
-        if ((figure.canMove(row1, col1, row2, col2,this.fields))  || (Objects.equals(this.fields[row1][col1].getName(), "K") && Objects.equals(this.fields[row2][col2].getName(), "R"))){
+        else if ((figure.canMove(row1, col1, row2, col2,this.fields))  || (Objects.equals(this.fields[row1][col1].getName(), "K") && Objects.equals(this.fields[row2][col2].getName(), "R"))){
             System.out.println("move");
             figure.move(row1,col1,row2,col2,this.fields);
+            this.isKingAttacked = figure.canAttackKing(row2,col2,this.fields);
+            if (this.isKingAttacked == true)
+            {
+                if (fields[row2][col2].getColor() == 'w')
+                {
+                    this.colorOfAttacked = "black";
+                }
+                else
+                {
+                    this.colorOfAttacked = "white";
+                }
+                System.out.println(colorOfAttacked + " king is Attacked, Save him!");
+            }
             return true;
         } else if (figure.canAttack(row1, col1, row2, col2,this.fields) && this.fields[row2][col2] != null && this.fields[row2][col2].getColor() != this.fields[row1][col1].getColor() ){
             System.out.println("attack");

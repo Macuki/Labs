@@ -102,5 +102,46 @@ public class Pawn extends Figure {
         }
         fields[row][col ] = null;
     }
-
+    @Override
+    public boolean canAttackKing(int row, int col, Figure[][]fields)
+    {
+        if (fields[row][col].getColor() == 'w')
+        {
+            if (row + 1 < 7 )
+            {
+                if (col + 1 < 7 && fields[row+1][col+1] != null && fields[row][col].getColor() != fields[row+1][col+1].getColor() && Objects.equals(fields[row + 1][col + 1].getName(), "K"))
+                {
+                    return true;
+                }
+                if (col - 1 >= 0 && fields[row+1][col-1] != null && fields[row][col].getColor() != fields[row+1][col-1].getColor()&& Objects.equals(fields[row + 1][col -1].getName(), "K"))
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (row -1 >=0 )
+            {
+                if (col + 1 < 7 && fields[row-1][col+1] != null && fields[row][col].getColor() != fields[row-1][col+1].getColor() && Objects.equals(fields[row - 1][col +1].getName(), "K"))
+                {
+                    return true;
+                }
+                if (col - 1 >= 0 && fields[row-1][col-1] != null && fields[row][col].getColor() != fields[row-1][col-1].getColor()&& Objects.equals(fields[row - 1][col -1].getName(), "K"))
+                {
+                    return true;
+                }
+                else return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }

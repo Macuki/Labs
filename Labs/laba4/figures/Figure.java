@@ -52,5 +52,9 @@ public abstract class Figure {
         fields[row1][col1] = fields[row][col];
         fields[row][col ] = null;
     }
+    public boolean canAttackKing(int row, int col, Figure[][]fields)
+    {
+        return false;
+    }
 
 }
